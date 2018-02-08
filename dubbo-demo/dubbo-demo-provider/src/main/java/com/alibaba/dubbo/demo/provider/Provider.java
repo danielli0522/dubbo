@@ -16,7 +16,11 @@
  */
 package com.alibaba.dubbo.demo.provider;
 
+import com.alibaba.dubbo.demo.DemoService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Provider {
 
@@ -24,8 +28,14 @@ public class Provider {
         //Prevent to get IPV6 address,this way only work in debug mode
         //But you can pass use -Djava.net.preferIPv4Stack=true,then it work well whether in debug mode or not
         System.setProperty("java.net.preferIPv4Stack", "true");
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/dubbo-demo-provider.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/dubbo-demo-provider.xml"});
         context.start();
+
+        DemoService demoService = (DemoService) context.getBean("demoService");
+        demoService.sayHello("lshl");
+
+//        SimpleDateFormat info = (SimpleDateFormat) context.getBean("dateFormat");
+////        System.out.println(info.format(new Date()));
 
         System.in.read(); // press any key to exit
     }
